@@ -4,10 +4,39 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+import javax.persistence.*;
+
+import static javax.persistence.GenerationType.SEQUENCE;
+
+
 @NoArgsConstructor
 @AllArgsConstructor
+
+@Entity
 public class Intern {
+
+    @Id
+    @GeneratedValue(strategy = SEQUENCE)
+    private int id;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "age")
+    private int age;
+
+    @Column(name = "stream")
+    @Enumerated(EnumType.STRING)
+    private InternStreams stream;
+
+
+
+    public Intern(String name, int age, InternStreams stream) {
+        this.name = name;
+        this.age = age;
+        this.stream = stream;
+    }
+
     public int getId() {
         return id;
     }
@@ -15,10 +44,6 @@ public class Intern {
     public void setId(int id) {
         this.id = id;
     }
-
-    private int id;
-    private String name;
-    private int age;
 
     public String getName() {
         return name;
@@ -44,15 +69,13 @@ public class Intern {
         this.stream = stream;
     }
 
-    private InternStreams stream;
-
-
-
-
-
-    public Intern(String name, int age, InternStreams stream) {
-        this.name = name;
-        this.age = age;
-        this.stream = stream;
+    @Override
+    public String toString() {
+        return "Intern{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", stream=" + stream +
+                '}';
     }
 }

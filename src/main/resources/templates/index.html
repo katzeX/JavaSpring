@@ -3,43 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet"/>
-    <script type="text/javascript" src = "webjars/jquery/2.2.3/jquery.min.js"></script>
-    <script type="text/javascript" src="webjars/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="webjars/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css"/>
-    <script type="text/javascript" th:src="@{/css/main.js}"  src="../static/css/main.js"></script>
 
 </head>
 <body>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Age</th>
-        <th>Stream</th>
-        <th>Delete</th>
-        <th>Update</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:if="${interns.isEmpty()}">
-        <td colspan="3">No Interns</td>
-    </tr>
-    <tr th:each="intern : ${interns}">
-        <td><span th:text="${intern.id}">ID</span></td>
-        <td><span th:text="${intern.name}">Name</span></td>
-        <td><span th:text="${intern.age}">Age</span></td>
-        <td><span th:text="${intern.stream}">Stream</span></td>
-        <td><a th:href="@{'/delete/'+${intern.id}}">Delete</a></td>
-        <td><a th:href="@{'/update/'+${intern.id}}">Update</a></td>
-    </tr>
+<div >
+    <table >
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Stream</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${interns.isEmpty()}">
+            <td colspan="3">No Interns</td>
+        </tr>
+        <tr th:each="intern : ${interns}">
+            <td><span th:text="${intern.id}">ID</span></td>
+            <td><span th:text="${intern.name}">Name</span></td>
+            <td><span th:text="${intern.age}">Age</span></td>
+            <td><span th:text="${intern.stream}">Stream</span></td>
+            <td><a th:href="@{'/edit/'+${intern.id}}" >Edit</a></td>
+            <td><a th:href="@{'/delete/'+${intern.id}}" >Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
 
 
-    </tbody>
-</table>
-
-
-<a href="newForm"> Form </a>
+    <a th:href="@{/newForm}">
+        Add Intern
+    </a>
+</div>
 </body>
 </html>

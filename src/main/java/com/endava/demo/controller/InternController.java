@@ -1,12 +1,13 @@
 package com.endava.demo.controller;
 
 import com.endava.demo.entity.Intern;
-import com.endava.demo.entity.InternStreams;
 import com.endava.demo.service.InternService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 import static com.endava.demo.entity.InternStreams.NET;
 
@@ -14,11 +15,11 @@ import static com.endava.demo.entity.InternStreams.NET;
 public class InternController {
 
     @Autowired
-   private InternService internService;
+    private InternService internService;
 
     @GetMapping("/newForm")
     public String secondView(Model model) {
-        model.addAttribute("intern", new Intern("Serghei", 27, NET));
+        model.addAttribute("intern", new Intern());
         return "newForm";
     }
 
@@ -35,17 +36,16 @@ public class InternController {
         return  "redirect:/";
     }
 
-    @RequestMapping(value = "/update/{id}")
-    public String fillNewForm(@PathVariable int id, Model model)
-    {   Intern intern = internService.getInternById(id);
-        model.addAttribute("intern", intern);
-        return "changeForm";
+    @RequestMapping(value="/edit/{id}")
+    public String edit(@PathVariable int id, Model m){
+        Optional<Intern> intern = internService.getInternById(id);
+        m.addAttribute("intern",intern);
+        return "newForm";
     }
 
-    @PostMapping(value = "/saveForm")
-    public String updateIntern(@ModelAttribute("intern") Intern intern)
-    {
+    @RequestMapping(value="/editsave",method = RequestMethod.POST)
+    public String editsave(@ModelAttribute("intern") Intern intern){
         internService.update(intern);
-         return "redirect:/";
+        return "redirect:/";
     }
 }

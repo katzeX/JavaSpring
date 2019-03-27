@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 
@@ -22,19 +23,22 @@ public class InternServiceImpl implements InternService {
 
     @Override
     public void add(Intern intern) {
-        intern.setId(internDAO.getMaxID() + 1);
-        internDAO.save(intern);
+        internDAO.saveIntern(intern);
     }
      @Override
     public void remove(int id)
      {
-        internDAO.delete(id);
+        internDAO.deleteIntern(id);
      }
 
-     @Override
-    public  void update (Intern intern) {internDAO.update(intern);}
+    @Override
+    public Optional<Intern> getInternById(int id){
+        return internDAO.getInternById(id);
+    }
 
     @Override
-    public Intern getInternById(int id){return  internDAO.getInternById(id); }
+    public void update(Intern intern) {
+        internDAO.update(intern);
+    }
 
 }
