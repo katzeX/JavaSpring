@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+
+<section id="contact">
+    <div class="content">
+        <div id="form">
+            <form th:action="@{/newForm}" th:object="${intern}" method="post" id="contactForm">
+                <span>Name</span>
+                <input type="text" th:field="*{name}" name="name" class="name" tabindex=1/>
+                <span>Age</span>
+                <input type="text" th:field="*{age}" name="age" class="age" tabindex=2/>
+                <span>Stream</span>
+                <input type="text" th:field="*{stream}" name="stream" class="stream" tabindex=3/>
+                <input type="submit" name="submit" value="Add Intern" class="submit" tabindex=4>
+            </form>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
