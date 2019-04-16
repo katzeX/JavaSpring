@@ -6,6 +6,7 @@ import com.endava.demo.service.InternService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,28 +18,33 @@ public class InternServiceImpl implements InternService {
     private InternDAO internDAO;
 
     @Override
+
     public List<Intern> getAllInterns() {
         return internDAO.findAll();
     }
 
     @Override
+
     public void add(Intern intern) {
         internDAO.saveIntern(intern);
     }
      @Override
+
     public void remove(int id)
      {
         internDAO.deleteIntern(id);
      }
 
     @Override
-    public Optional<Intern> getInternById(int id){
+
+    public Intern getInternById(int id){
         return internDAO.getInternById(id);
     }
 
     @Override
+
     public void update(Intern intern) {
-        internDAO.update(intern);
+        internDAO.save(intern);
     }
 
 }

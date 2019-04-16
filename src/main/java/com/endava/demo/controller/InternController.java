@@ -7,9 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
-import static com.endava.demo.entity.InternStreams.NET;
 
 @Controller
 public class InternController {
@@ -31,21 +28,22 @@ public class InternController {
     @GetMapping(value = "/delete/{id}")
     public String deleteIntern(@PathVariable int id)
     {
-
         internService.remove(id);
         return  "redirect:/";
     }
 
     @RequestMapping(value="/edit/{id}")
     public String edit(@PathVariable int id, Model m){
-        Optional<Intern> intern = internService.getInternById(id);
+        Intern intern = internService.getInternById(id);
         m.addAttribute("intern",intern);
+        internService.add(intern);
         return "newForm";
     }
 
-    @RequestMapping(value="/editsave",method = RequestMethod.POST)
+  @RequestMapping(value="/editsave",method = RequestMethod.POST)
     public String editsave(@ModelAttribute("intern") Intern intern){
-        internService.update(intern);
+        internService.add(intern);
         return "redirect:/";
     }
-}
+
+    }

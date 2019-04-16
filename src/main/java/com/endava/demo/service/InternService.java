@@ -12,7 +12,7 @@ public interface InternService {
 
     void remove(int id);
 
-    Optional<Intern> getInternById(int id);
+    Intern getInternById(int id);
 
     void update(Intern intern);
 }

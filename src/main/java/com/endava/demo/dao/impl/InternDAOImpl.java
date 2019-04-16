@@ -8,6 +8,10 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -19,100 +23,56 @@ import java.util.Optional;
 @Transactional
 public class InternDAOImpl implements InternDAO {
 
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    public static List<Intern> internList = new ArrayList<>();
-
-    private static Session currentSession;
-
-    private static Transaction currentTransaction;
-
-    public static SessionFactory getSessionFactory() {
-        SessionFactory sessionFactory = new Configuration().addAnnotatedClass(Intern.class).buildSessionFactory();
-        return sessionFactory;
-    }
-
-    public static Session openSession() {
-        return currentSession = getSessionFactory().openSession();
-    }
-
-    public static Transaction beginTransaction() {
-        currentTransaction = currentSession.beginTransaction();
-        return currentTransaction;
-    }
-
-    public static void closeTransaction() {
-        beginTransaction().commit();
-    }
 
     @Override
     public List<Intern> findAll() {
 
-        internList = openSession().createQuery("SELECT i FROM Intern i", Intern.class).getResultList();
+        return  entityManager.createQuery("SELECT i FROM Intern i", Intern.class).getResultList();
 
-        openSession().close();
-
-        return internList;
     }
 
     @Override
     public void saveIntern(Intern intern) {
 
+        System.err.println(intern.getId());
 
-        openSession();
-        currentSession.beginTransaction();
-        currentSession.persist(intern);
-        currentSession.getTransaction().commit();
-        closeTransaction();
-        currentSession.close();
-
+        if (intern.getId() == 0)
+            entityManager.persist(intern);
+        else entityManager.refresh(intern);
     }
 
-    @Override
-    public int getMaxID() {
-        return internList
-                .stream()
-                .max(Comparator.comparingInt(Intern::getId))
-                .get()
-                .getId();
-    }
 
     @Override
     public void deleteIntern(int id) {
-        openSession();
-        currentTransaction = beginTransaction();
 
-        Intern intern = currentSession.get(Intern.class, id);
-        currentSession.delete(intern);
-        currentTransaction.commit();
-        currentSession.close();
+        Intern intern = entityManager.find(Intern.class, id);
+        entityManager.remove(intern);
 
-       //closeTransaction();
+
+
 
     }
 
-    public Optional<Intern> getInternById(int id) {
-        currentSession = openSession();
+    public Intern getInternById(int id) {
 
+        Intern intern = entityManager.find(Intern.class, id);
+        if ( intern == null )
+        {
+            throw new EntityNotFoundException("Can't find Intern for ID" + id);
+        }
 
-        Optional<Intern> internList = currentSession
-                .createQuery("SELECT i FROM Intern i WHERE id=:iId", Intern.class)
-                .setParameter("iId", id)
-                .getResultList().stream().findFirst();
-
-        currentSession.close();
-        return internList;
+     return intern;
 
     }
 
     @Override
-    public void update(Intern intern) {
-        openSession();
+    public void save(Intern intern) {
 
+        entityManager.merge(intern);
 
-        currentSession.merge(intern);
-        currentTransaction.commit();
-        currentSession.close();
-        closeTransaction();
     }
 
 }

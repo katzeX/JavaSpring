@@ -1,0 +1,77 @@
+
+             /*  String authString = Authorization.username + ":" + Authorization.password;
+
+        byte[] authEncBytes = Base64.encodeBase64(
+                authString.getBytes(Charset.forName("US-ASCII")));
+//        System.out.println("auth string: " + authEncBytes);
+//        HttpHeaders headers = new HttpHeaders();
+        String url = "https://uatjira.endava.com/rest/auth/1/session";
+        HttpHeaders headers = new HttpHeaders(){
+            String authString = Authorization.username + ":" + Authorization.password;
+            byte[] authEncBytes = Base64.encodeBase64(
+                    authString.getBytes(Charset.forName("US-ASCII")));
+            String authHeader="Basic "+new String(authEncBytes);
+            set("Authorization",authHeader);
+        };
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        headers.add("Authorization ", "Basic " + authEncBytes  ); //here is some login and pass like this login:pass
+
+
+
+        HttpEntity request = new HttpEntity<>( headers);
+        Object response = restTemplate.exchange(url, HttpMethod.GET, request, Object.class);
+        return new ResponseEntity<>( response, HttpStatus.OK);*/
+
+
+        String credentialsJSON = "{" +
+                "\"username\": \"xdamanciuc\"," +
+                "\"password\": \"" + Authorization.password + "\"" +
+                "} ";
+
+       /* String issueJSON = "{\"fields\":{" +
+                "\"issuetype\":{\"id\":\"" + issueType + "\"}," +
+                "\"project\":{\"id\":\"" + projectId + "\"}," +
+                "\"reporter\":{\"name\":\"" + assignee + "\"}," +
+                "\"assignee\":{\"name\":\"" + assignee + "\"}" +
+                "}}";*/
+
+     /*  String sessionId = given().
+                header("Content-Type", "application/json").
+                body(credentialsJSON).
+                when().
+                post("/rest/auth/1/session").
+                then().
+                extract().
+                path("session.value");
+
+        System.out.printf("\nSESSION: " + sessionId);
+
+
+
+        RestAssured.baseURI = "http://uatjira.endava.com"; // rest assured preconfiguration
+        ValidatableResponse response;*/
+
+
+
+
+
+         /* response =  given().
+                header("Content-Type", "application/json").
+                header("Cookie", "JSESSIONID=" + sessionId).
+                when().
+                get("/rest/api/2/issue/" + "IIA-5272").
+                then().
+                statusCode(200).contentType(ContentType.JSON);
+
+        String responseBody = response.extract().asString();
+        System.out.printf("\nRESPONSE: " + responseBody);
+        String issueKey = response.extract().path("key");
+
+
+
+        //List<Map<String, Object>> results = response.extract().body().jsonPath().getList("results");
+return issueKey;*/
+
+
+       // service.getIssue();

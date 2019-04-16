@@ -10,11 +10,9 @@ public interface InternDAO {
 
     void saveIntern(Intern intern);
 
-    int getMaxID();
-
     void deleteIntern(int id);
 
-    Optional<Intern> getInternById(int id);
+    Intern getInternById(int id);
 
-    void update(Intern intern);
+    void save(Intern intern);
 }
